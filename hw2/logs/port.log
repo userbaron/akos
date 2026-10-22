@@ -1,0 +1,21 @@
+[t=5] ship 1 "Neptune" arrived
+[t=6] ship 1 took berth 3, waiting for tug
+[t=7] ship 1 got tug 1, entering
+[t=10] ship 2 "Aurora" arrived
+[t=10] ship 2 cannot be served (no suitable berth/crane/warehouse), leaving
+[t=15] ship 3 "Vostok" arrived
+[t=16] ship 3 took berth 1, waiting for tug
+[t=17] ship 1 moored at berth 3
+[t=17] ship 3 got tug 1, entering
+[t=18] ship 1 got crane 1 and warehouse 2, unloading
+[t=27] ship 3 moored at berth 1
+[t=28] ship 1 unloaded, waiting for tug out
+[t=28] ship 3 got crane 2 and warehouse 1, unloading
+[t=29] ship 1 got tug 1, leaving
+[t=35] ship 3 unloaded, waiting for tug out
+[t=36] ship 3 got tug 2, leaving
+[t=39] ship 1 departed
+[t=40] warehouse 2 drained, now 35/200
+[t=46] ship 3 departed
+[t=46] all ships done
+Simulation finished at tick 46
