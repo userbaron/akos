@@ -199,6 +199,12 @@ int port_load(Port* p, const char* path) {
         }
     }
     fclose(f);
+    /* Число объектов определяет число процессов и не должно выходить за массивы. */
+    if (p->berth_count != bi || p->tug_count != ti || p->crane_count != ci ||
+        p->warehouse_count != wi || p->ship_count != si) {
+        fprintf(stderr, "Resource counts do not match the config entries\n");
+        return -1;
+    }
     return 0;
 }
 
@@ -224,7 +230,7 @@ void port_render(const Port* p) {
     printf("============================\n");
 }
 
-/* Один такт отдельного склада; вызывается рабочим потоком под мьютексом порта. */
+/* Один такт отдельного склада; вызывается рабочим процессом под семафором порта. */
 void port_warehouse_step(Port* p, int i) {
     if (warehouse_step(&p->warehouses[i])) {
         Warehouse* w = &p->warehouses[i];

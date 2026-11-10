@@ -9,9 +9,17 @@
 static int g_fd = -1;  /* дескриптор лог-файла, -1 если не открыт */
 
 /* Открываем лог на запись, с обрезкой старого содержимого. */
-void log_open(const char* path) {
-    g_fd = open(path, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-    if (g_fd < 0) perror("open log");
+int log_open(const char* path) {
+    g_fd = open(path, O_CREAT | O_WRONLY | O_TRUNC | O_APPEND, 0644);
+    if (g_fd < 0) { perror("open log"); return -1; }
+    return 0;
+}
+
+/* Независимый рабочий дописывает в журнал, не стирая его. */
+int log_attach(const char* path) {
+    g_fd = open(path, O_WRONLY | O_APPEND);
+    if (g_fd < 0) { perror("open log"); return -1; }
+    return 0;
 }
 
 /* Закрываем лог-файл. */
