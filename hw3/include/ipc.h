@@ -11,7 +11,6 @@
 
 enum { PHASE_WAREHOUSES, PHASE_SHIPS };
 
-/* Только общие данные. Указатели на именованные семафоры у каждого свои. */
 typedef struct {
     Port port;
     int process_count;

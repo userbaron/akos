@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* Отдельная программа для варианта на 7–8: её запускает пользователь. */
 int main(int argc, char** argv) {
     if (argc == 2 && (!strcmp(argv[1], "--help") || !strcmp(argv[1], "-h"))) {
         printf("Usage: %s SESSION INDEX\n", argv[0]);
