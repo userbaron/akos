@@ -1,0 +1,10 @@
+[t=3] ship 1 "Solo" arrived
+[t=4] ship 1 took berth 1, waiting for tug
+[t=5] ship 1 got tug 1, entering
+[t=10] ship 1 moored at berth 1
+[t=11] ship 1 got crane 1 and warehouse 1, unloading
+[t=15] ship 1 unloaded, waiting for tug out
+[t=16] ship 1 got tug 1, leaving
+[t=26] ship 1 departed
+[t=26] all ships done
+Simulation finished at tick 26
