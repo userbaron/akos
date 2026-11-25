@@ -78,21 +78,14 @@ int port_load(Port* p, const char* path) {
 
         /* TIMING enter=N leave=M */
         if (!strcmp(kw, "TIMING")) {
-            char* tok = s + strlen(kw);
+            char* tok = strtok(s + strlen(kw), " \t\r\n");
             char key[32], val[32];
-            while (sscanf(tok, "%31s", key) == 1) {
-                tok = strchr(tok, ' ');
-                if (!tok) break;
-                tok++;
-                char kv[64];
-                if (sscanf(tok, "%63s", kv) != 1) break;
-                if (parse_kv(kv, key, sizeof(key), val, sizeof(val)) == 0) {
+            while (tok && *tok != '#') {
+                if (parse_kv(tok, key, sizeof(key), val, sizeof(val)) == 0) {
                     if (!strcmp(key, "enter")) p->enter_ticks = atoi(val);
                     else if (!strcmp(key, "leave")) p->leave_ticks = atoi(val);
                 }
-                tok = strchr(tok, ' ');
-                if (!tok) break;
-                tok++;
+                tok = strtok(NULL, " \t\r\n");
             }
         }
         /* Количество причалов (заголовок секции). */
@@ -199,6 +192,10 @@ int port_load(Port* p, const char* path) {
         }
     }
     fclose(f);
+    if (p->enter_ticks < 1 || p->leave_ticks < 1) {
+        fprintf(stderr, "TIMING enter and leave must be positive\n");
+        return -1;
+    }
     /* Число объектов определяет число процессов и не должно выходить за массивы. */
     if (p->berth_count != bi || p->tug_count != ti || p->crane_count != ci ||
         p->warehouse_count != wi || p->ship_count != si) {
@@ -208,7 +205,7 @@ int port_load(Port* p, const char* path) {
     return 0;
 }
 
-/* Печать полного снимка порта (используется тикером в режиме full). */
+/* Печать полного снимка порта у клиента-наблюдателя. */
 void port_render(const Port* p) {
     printf("=== Port state (tick %d) ===\n", p->tick);
 
@@ -230,7 +227,7 @@ void port_render(const Port* p) {
     printf("============================\n");
 }
 
-/* Один такт отдельного склада; вызывается рабочим процессом под семафором порта. */
+/* Один такт склада; вызывается рабочим для полученной от сервера копии порта. */
 void port_warehouse_step(Port* p, int i) {
     if (warehouse_step(&p->warehouses[i])) {
         Warehouse* w = &p->warehouses[i];

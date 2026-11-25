@@ -5,6 +5,6 @@
 [t=11] ship 1 got crane 1 and warehouse 1, unloading
 [t=15] ship 1 unloaded, waiting for tug out
 [t=16] ship 1 got tug 1, leaving
-[t=26] ship 1 departed
-[t=26] all ships done
-Simulation finished at tick 26
+[t=21] ship 1 departed
+[t=21] all ships done
+Simulation finished at tick 21

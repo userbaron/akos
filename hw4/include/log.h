@@ -4,7 +4,7 @@
 #include <stdarg.h>
 
 int log_open(const char* path);
-int log_attach(const char* path);
+void log_set_channel(int fd);
 void log_close(void);
 void log_write(const char* fmt, ...);
 
